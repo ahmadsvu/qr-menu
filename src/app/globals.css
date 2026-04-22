@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f8f7f4;
+  --foreground: #171717;
+  --card: #ffffff;
+  --muted: #6b7280;
+  --border: #ece8df;
+  --accent: #b58b55;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --font-sans: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+html.dark {
+  --background: #101114;
+  --foreground: #f3f4f6;
+  --card: #1a1c21;
+  --muted: #a1a1aa;
+  --border: #252a34;
+  --accent: #d2a96f;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+}
+
+* {
+  border-color: var(--border);
+}
+
+.premium-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  box-shadow: 0 8px 26px rgba(15, 15, 15, 0.07);
+}
+
+html.dark .premium-card {
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.32);
+}
+
+.font-en {
+  font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.font-body-ar {
+  font-family: var(--font-cairo), "Segoe UI", Tahoma, sans-serif;
+  font-weight: 400;
+  line-height: 1.8;
+}
+
+.font-head-ar {
+  font-family: var(--font-tajawal), var(--font-cairo), "Segoe UI", Tahoma, sans-serif;
+  font-weight: 700;
+  line-height: 1.35;
+}
