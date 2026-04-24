@@ -10,9 +10,7 @@ export type MenuData = {
 };
 
 export async function getMenuData(restaurantSlug?: string, restaurantId?: string): Promise<MenuData> {
-  if (process.env.NODE_ENV !== "production") {
-    await ensureSeedData();
-  }
+  await ensureSeedData();
 
   const restaurants = await db.restaurant.findMany({
     select: {
