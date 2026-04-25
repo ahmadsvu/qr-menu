@@ -1,6 +1,6 @@
-import { Suspense } from "react";
+﻿import { Suspense } from "react";
 import MenuClient from "./MenuClient";
-import { getMenuData } from "@/lib/menu";
+import { getMenuOverview } from "@/lib/menu";
 
 export const revalidate = 60; // Revalidate every 60 seconds
 
@@ -9,14 +9,15 @@ interface PageProps {
 }
 
 export default async function Home({ searchParams }: PageProps) {
-  const restaurantSlug = typeof searchParams.restaurant === 'string' ? searchParams.restaurant : undefined;
-  const restaurantId = typeof searchParams.restaurantId === 'string' ? searchParams.restaurantId : undefined;
+  const params = await searchParams;
+  const restaurantSlug = typeof params.restaurant === "string" ? params.restaurant : undefined;
+  const restaurantId = typeof params.restaurantId === "string" ? params.restaurantId : undefined;
 
-  const data = await getMenuData(restaurantSlug, restaurantId);
+  const overview = await getMenuOverview(restaurantSlug, restaurantId);
 
   return (
     <Suspense fallback={<MenuSkeleton />}>
-      <MenuClient initialData={data} />
+      <MenuClient initialData={overview} />
     </Suspense>
   );
 }
@@ -24,30 +25,39 @@ export default async function Home({ searchParams }: PageProps) {
 function MenuSkeleton() {
   return (
     <div className="mx-auto min-h-screen max-w-6xl px-4 py-6 sm:px-6 sm:py-10">
-      <header className="premium-card rounded-2xl p-4 sm:p-6">
-        <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded mb-4 animate-pulse"></div>
-        <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded mb-2 animate-pulse"></div>
-        <div className="grid gap-3 sm:grid-cols-[1fr_240px]">
-          <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded-xl animate-pulse"></div>
-          <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded-xl animate-pulse"></div>
-        </div>
-      </header>
-      <main className="mt-6 space-y-6">
-        {Array.from({ length: 3 }).map((_, i) => (
-          <section key={i} className="premium-card rounded-2xl p-4 sm:p-6">
-            <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded mb-4 animate-pulse"></div>
-            <div className="grid gap-4 sm:grid-cols-2">
-              {Array.from({ length: 4 }).map((_, j) => (
-                <article key={j} className="rounded-xl border p-4">
-                  <div className="h-36 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse mb-4"></div>
-                  <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded mb-2 animate-pulse"></div>
-                  <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
-                </article>
-              ))}
+      <div className="grid gap-6 lg:grid-cols-[280px_minmax(0,1fr)]">
+        <aside className="hidden rounded-3xl border bg-white/80 p-6 shadow-sm lg:block">
+          <div className="space-y-4">
+            <div className="h-10 rounded-2xl bg-gray-200 animate-pulse" />
+            <div className="h-10 rounded-2xl bg-gray-200 animate-pulse" />
+            <div className="h-10 rounded-2xl bg-gray-200 animate-pulse" />
+          </div>
+        </aside>
+        <main className="space-y-6">
+          <header className="rounded-3xl border bg-white/80 p-6 shadow-sm">
+            <div className="h-8 rounded-xl bg-gray-200 animate-pulse" />
+            <div className="mt-4 grid gap-3 sm:grid-cols-3">
+              <div className="h-10 rounded-2xl bg-gray-200 animate-pulse" />
+              <div className="h-10 rounded-2xl bg-gray-200 animate-pulse" />
+              <div className="h-10 rounded-2xl bg-gray-200 animate-pulse" />
             </div>
-          </section>
-        ))}
-      </main>
+          </header>
+          {Array.from({ length: 2 }).map((_, index) => (
+            <section key={index} className="rounded-3xl border bg-white/80 p-6 shadow-sm">
+              <div className="h-8 w-1/3 rounded-xl bg-gray-200 animate-pulse" />
+              <div className="mt-4 grid gap-4 sm:grid-cols-2">
+                {Array.from({ length: 3 }).map((_, itemIndex) => (
+                  <div key={itemIndex} className="space-y-3 rounded-3xl border p-4">
+                    <div className="h-32 rounded-2xl bg-gray-200 animate-pulse" />
+                    <div className="h-4 rounded-xl bg-gray-200 animate-pulse" />
+                    <div className="h-3 w-3/4 rounded-xl bg-gray-200 animate-pulse" />
+                  </div>
+                ))}
+              </div>
+            </section>
+          ))}
+        </main>
+      </div>
     </div>
   );
 }

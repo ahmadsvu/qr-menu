@@ -55,7 +55,7 @@ export default function AdminPage() {
   const [qrDataUrl, setQrDataUrl] = useState("");
 
   const allItems = useMemo(
-    () => categories.flatMap((category) => category.items.map((item) => ({ ...item, categoryName: category.nameEn }))),
+    () => categories.flatMap((category) => category.items?.map((item) => ({ ...item, categoryName: category.nameEn })) ?? []),
     [categories]
   );
 

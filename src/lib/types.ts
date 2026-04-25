@@ -15,7 +15,7 @@ export type MenuCategory = {
   nameAr: string;
   order: number;
   restaurantId: string | null;
-  items: MenuItem[];
+  items?: MenuItem[];
 };
 
 export type MenuItem = {
